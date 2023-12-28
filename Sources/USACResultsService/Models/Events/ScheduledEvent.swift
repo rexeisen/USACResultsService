@@ -13,13 +13,16 @@ struct ScheduledEvent: Decodable {
     }
     
     private enum CodingKeys: String, CodingKey {
-        case series = "Series"
+        case series = "series"
+        case sport80Id
     }
     
     enum ScheduleEventContainer {
         case youth(YouthEvent)
         case collegiate(CollegiateEvent)
         case elite(EliteEvent)
+        case recretational(RecreationalEvent)
+        case garbage
     }
     
     var value: ScheduleEventContainer
@@ -27,6 +30,13 @@ struct ScheduledEvent: Decodable {
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let type = try container.decode(Series.self, forKey: .series)
+        let sport80Id = try container.decode(String.self, forKey: .sport80Id)
+        
+        // For mock competitions
+        guard sport80Id != "-1" else {
+            self.value = .garbage
+            return
+        }
         
         switch type {
             
@@ -39,6 +49,9 @@ struct ScheduledEvent: Decodable {
         case .elite:
             let event = try EliteEvent(from: decoder)
             self.value = .elite(event)
+        case .recreational:
+            let event = try RecreationalEvent(from: decoder)
+            self.value = .recretational(event)
         }
     }
 }

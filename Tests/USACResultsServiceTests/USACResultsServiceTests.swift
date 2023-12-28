@@ -76,9 +76,214 @@ final class USACResultsServiceTests: XCTestCase {
         XCTAssertEqual(decodedResult.name, "QE R61 Boulders Downtown Madison")
         XCTAssertEqual(decodedResult.disciplines, [.boulder])
         XCTAssertEqual(decodedResult.region, .r61)
+    }
+    
+    func testParsingCollegiate() throws {
+        let jsonString = """
+        {
+            "categories" : [ "WAdv", "WInt", "MAdv", "MInt", "NAdv", "NInt" ],
+            "city" : "Saint Paul",
+            "dateEnd" : "2023/10/21",
+            "dateStart" : "2023/10/21",
+            "deadline" : "23/10/18",
+            "disciplines" : [ "Boulder" ],
+            "division" : "Heartland",
+            "eid" : "1497",
+            "format" : "Mod Redpoint",
+            "host" : "Vertical Endeavors Twin Cities Bouldering",
+            "level" : "QE",
+            "name" : "QE Heartland Vertical Endeavors Twin Cities Bouldering",
+            "region" : "Heartland",
+            "rounds" : "1",
+            "series" : "Collegiate",
+            "sport80Id" : "1095",
+            "state" : "MN",
+            "status" : "Complete",
+            "ver" : "v8",
+            "zip" : "55114"
+          }
+        """
+        let jsonData = Data(jsonString.utf8)
+
+        // Ask JSONDecoder to decode the JSON data as DecodedArray
+        let decodedResult = try JSONDecoder().decode(CollegiateEvent.self, from: jsonData)
+        
+        XCTAssertEqual(decodedResult.id, "1497")
+        XCTAssertEqual(decodedResult.name, "QE Heartland Vertical Endeavors Twin Cities Bouldering")
+        XCTAssertEqual(decodedResult.disciplines, [.boulder])
+        XCTAssertEqual(decodedResult.region, .heartland)
+        XCTAssertEqual(decodedResult.format, .modifiedRedpoint)
+    }
+    
+    func testParsingElite() throws {
+        let jsonString = """
+        {
+            "categories" : [ "Women", "Men" ],
+            "city" : "Alexandria",
+            "dateEnd" : "2023/09/24",
+            "dateStart" : "2023/09/22",
+            "deadline" : "2023/09/21",
+            "disciplines" : [ "LeadTR", "Speed" ],
+            "division" : "",
+            "eid" : "1423",
+            "format" : "Onsight",
+            "host" : "Sportrock Climbing Centers",
+            "level" : "National",
+            "name" : "Elite National Sportrock Climbing Centers",
+            "region" : "R00",
+            "rounds" : "3",
+            "series" : "Elite",
+            "sport80Id" : "1023",
+            "state" : "VA",
+            "status" : "Approved",
+            "timezone" : "America/New_York",
+            "zip" : "22304"
+          }
+        """
+        let jsonData = Data(jsonString.utf8)
+
+        // Ask JSONDecoder to decode the JSON data as DecodedArray
+        let decodedResult = try JSONDecoder().decode(EliteEvent.self, from: jsonData)
+        
+        XCTAssertEqual(decodedResult.id, "1423")
+        XCTAssertEqual(decodedResult.name, "Elite National Sportrock Climbing Centers")
+        XCTAssertEqual(decodedResult.disciplines, [.leadTR, .speed])
+        XCTAssertEqual(decodedResult.region, .r00)
+        XCTAssertEqual(decodedResult.format, .onsight)
+    }
+    
+    func testTopLevelParsing() throws {
+        let jsonString = """
+    {
+      "1424": {
+        "categories": [
+          "Women",
+          "Men"
+        ],
+        "city": "Boise",
+        "dateEnd": "2023/10/15",
+        "dateStart": "2023/10/11",
+        "deadline": "2023/10/10",
+        "disciplines": [
+          "Boulder",
+          "LeadTR",
+          "Speed"
+        ],
+        "division": "",
+        "eid": "1424",
+        "format": "Onsight",
+        "host": "Yeti Nationals - Vertical View/Asana Climbing Gym",
+        "level": "National",
+        "name": "Elite National Yeti Nationals - Vertical View/Asana Climbing Gym",
+        "region": "R00",
+        "rounds": "3",
+        "series": "Elite",
+        "sport80Id": "1032",
+        "state": "ID",
+        "status": "Approved",
+        "timezone": "America/Boise",
+        "zip": "83642"
+      },
+      "1443": {
+        "categories": [
+          "FJR",
+          "FYA",
+          "FYB",
+          "FYC",
+          "FYD",
+          "MJR",
+          "MYA",
+          "MYB",
+          "MYC",
+          "MYD"
+        ],
+        "city": "Yakima",
+        "dateEnd": "2023/10/14",
+        "dateStart": "2023/10/14",
+        "deadline": "2023/10/11",
+        "disciplines": [
+          "Boulder"
+        ],
+        "division": "",
+        "eid": "1443",
+        "format": "Mod Redpoint",
+        "host": "High Steppe Climbing Center",
+        "level": "QE",
+        "name": "QE R11 High Steppe Climbing Center",
+        "region": "R11",
+        "rounds": "1",
+        "series": "Youth",
+        "sport80Id": "1039",
+        "state": "WA",
+        "status": "Complete",
+        "ver": "v8",
+        "zip": "98901"
+      },
+      "1451": {
+        "categories": [
+          "WAdv",
+          "WInt",
+          "MAdv",
+          "MInt",
+          "NAdv",
+          "NInt"
+        ],
+        "city": "Syracuse",
+        "dateEnd": "2023/10/15",
+        "dateStart": "2023/10/15",
+        "deadline": "23/10/11",
+        "disciplines": [
+          "Boulder"
+        ],
+        "division": "Northeast",
+        "eid": "1451",
+        "format": "Mod Redpoint",
+        "host": "CRG Syracuse",
+        "level": "QE",
+        "name": "QE Northeast CRG Syracuse",
+        "region": "Northeast",
+        "rounds": "1",
+        "series": "Collegiate",
+        "sport80Id": "1042",
+        "state": "NY",
+        "status": "Complete",
+        "ver": "v8",
+        "zip": "13204"
+      }
+    }
+    """
+        
+        let jsonData = Data(jsonString.utf8)
+
+        // Ask JSONDecoder to decode the JSON data as DecodedArray
+        let decodedResult = try JSONDecoder().decode(DecodedArray<ScheduledEvent>.self, from: jsonData)
+        
+        XCTAssertEqual(decodedResult.array.count, 3)
+        
+        for item in decodedResult.array {
+            
+            if case .elite(let elite) = item.value {
+                
+                XCTAssertEqual(elite.zip, "83642")
+            } else if case .collegiate(let collegiate) = item.value {
+                
+                XCTAssertEqual(collegiate.zip, "13204")
+            } else if case .youth(let youth) = item.value {
+                
+                XCTAssertEqual(youth.zip, "98901")
+            }
+        }
         
     }
     
+    func testAllEventsParsing() throws {
+        let jsonData = Data(self.json.utf8)
+
+        // Ask JSONDecoder to decode the JSON data as DecodedArray
+        _ = try JSONDecoder().decode(DecodedArray<ScheduledEvent>.self, from: jsonData)
+        
+        XCTAssertTrue(true)
+    }
     
     private var json: String = """
 {

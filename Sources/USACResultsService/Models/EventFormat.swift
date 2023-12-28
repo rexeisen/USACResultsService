@@ -11,4 +11,5 @@ public enum EventFormat: String, Codable {
     case onsight = "Onsight"
     case modifiedRedpoint = "Mod Redpoint"
     case speed = "Speed"
+    case flash = "Flash"
 }
