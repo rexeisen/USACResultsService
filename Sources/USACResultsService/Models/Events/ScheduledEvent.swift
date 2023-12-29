@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ScheduledEvent: Decodable {
+public struct ScheduledEvent: Decodable {
     enum ScheduleError: Error {
         
     }
@@ -27,7 +27,7 @@ struct ScheduledEvent: Decodable {
     
     var value: ScheduleEventContainer
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         let type = try container.decode(Series.self, forKey: .series)
         let sport80Id = try container.decode(String.self, forKey: .sport80Id)
