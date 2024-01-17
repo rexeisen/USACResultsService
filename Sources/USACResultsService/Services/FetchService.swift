@@ -26,4 +26,14 @@ public struct FetchService {
         let events = try JSONDecoder().decode(DecodedArray<ScheduledEvent>.self, from: jsonData)
         return events.array
     }
+    
+    /// Fetches the configuration.
+    /// - Note: This currently only works for Youth Events
+    /// - Parameter eventId: The event id to fetch
+    /// - Returns: A decoded object 
+    static public func fetchConfiguration(eventId: String) async throws -> YouthEventConfiguration {
+        let jsonData = try await fetch(.config(eventId))
+        let configuration = try JSONDecoder().decode(YouthEventConfiguration.self, from: jsonData)
+        return configuration
+    }
 }
