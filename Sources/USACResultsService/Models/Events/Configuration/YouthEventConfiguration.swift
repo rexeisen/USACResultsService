@@ -16,6 +16,8 @@ public struct YouthEventConfiguration: Decodable, Identifiable {
     
     public var format: EventFormat
     
+    public var disciplines: [Discipline]
+    
     // Not coded to Region Enum because this could also be the division
     public var region: String
     

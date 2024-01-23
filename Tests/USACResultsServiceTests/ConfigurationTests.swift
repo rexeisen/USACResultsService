@@ -21,6 +21,18 @@ final class ConfigurationTests: XCTestCase {
     func testRoute() throws {
         let jsonString = """
 { 
+    "catRoutes" : {
+              "FJR" : [ 1, 2, 3, 4 ],
+              "FYA" : [ 5, 6, 7, 8 ],
+              "FYB" : [ 9, 10, 11, 12 ],
+              "FYC" : [ 13, 14, 15, 16 ],
+              "FYD" : [ 17, 18, 19, 20 ],
+              "MJR" : [ 21, 22, 23, 24 ],
+              "MYA" : [ 25, 26, 27, 28 ],
+              "MYB" : [ 29, 30, 31, 32 ],
+              "MYC" : [ 33, 34, 35, 36 ],
+              "MYD" : [ 37, 38, 39, 40 ]
+            },
     "routes" : {
         "R1" : {
             "color" : "",
@@ -64,6 +76,6 @@ final class ConfigurationTests: XCTestCase {
         let foundZoneOnly = try XCTUnwrap(decodedResult.routes.first(where: { $0.rid == "FYB3" } ) )
         
         XCTAssertFalse(foundZoneOnly.hasLowZone)
-        XCTAssertEqual(foundZoneOnly.id, "R11")
+        XCTAssert(foundZoneOnly.id == "R11")
     }
 }
