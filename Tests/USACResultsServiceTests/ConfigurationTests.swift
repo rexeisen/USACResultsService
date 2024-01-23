@@ -20,18 +20,33 @@ final class ConfigurationTests: XCTestCase {
     
     func testRoute() throws {
         let jsonString = """
-{ "routes" : {
-          "R1" : {
+{ 
+    "routes" : {
+        "R1" : {
             "color" : "",
             "low" : false,
             "rid" : "FJRF1"
-          },
-          "R10" : {
+        },
+        "R10" : {
             "color" : "",
             "low" : false,
             "rid" : "FYBF2"
-          }
-}
+        },
+        "R11" : {
+            "color" : "",
+            "holds" : "",
+            "low" : "",
+            "rid" : "FYB3",
+            "timerId" : ""
+        },
+        "R14" : {
+            "color" : "red",
+            "holds" : "",
+            "low" : 1,
+            "rid" : "FYC2",
+            "timerId" : ""
+        }
+    }
 }
 """
         
@@ -39,6 +54,16 @@ final class ConfigurationTests: XCTestCase {
 
         let decodedResult = try JSONDecoder().decode(YouthEventRoundConfiguration.self, from: jsonData)
         
-        XCTAssertEqual(decodedResult.routes.count, 2)
+        XCTAssertEqual(decodedResult.routes.count, 4)
+        
+        let foundWithLowZone = try XCTUnwrap(decodedResult.routes.first(where: { $0.rid == "FYC2" } ) )
+        
+        XCTAssert(foundWithLowZone.hasLowZone)
+        XCTAssertEqual(foundWithLowZone.color, "red")
+        
+        let foundZoneOnly = try XCTUnwrap(decodedResult.routes.first(where: { $0.rid == "FYB3" } ) )
+        
+        XCTAssertFalse(foundZoneOnly.hasLowZone)
+        XCTAssertEqual(foundZoneOnly.id, "R11")
     }
 }

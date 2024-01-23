@@ -32,12 +32,14 @@ public struct YouthEventRoute: Decodable, Identifiable {
             self.hasLowZone = hasLowZone
         } else if let lowZoneInt = try? container.decode(Int.self, forKey: .hasLowZone) {
             self.hasLowZone = lowZoneInt == 1
+        } else if let lowZoneString = try? container.decode(String.self, forKey: .hasLowZone) {
+            self.hasLowZone = lowZoneString == "1"
         } else {
             throw DecodingError.typeMismatch(Bool.self, DecodingError.Context(codingPath: [CodingKeys.hasLowZone], debugDescription: "Unknown type for low zone"))
         }
             
             
-        guard let key = container.codingPath.first else {
+        guard let key = container.codingPath.last else {
             throw DecodingError.valueNotFound(String.self, .init(codingPath: [CodingKeys.identifier], debugDescription: "No parent identifier found"))
         }
     
