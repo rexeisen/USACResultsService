@@ -7,6 +7,18 @@
 
 import Foundation
 
-public struct YouthEventRoundConfiguration: Codable {
-    public let routes: [YouthSeries.Category : [YouthEventRoute]]
+public struct YouthEventRoundConfiguration: Decodable {
+    public let routes: [YouthEventRoute]
+    
+    enum CodingKeys: CodingKey {
+        case routes
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        let decodedRoutes = try container.decode( DecodedArray<YouthEventRoute>.self, forKey: .routes)
+        
+        self.routes = decodedRoutes.array
+    }
 }
