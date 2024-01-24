@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum EventRound: String, Codable {
+public enum EventRound: String, Codable, CodingKey, CaseIterable {
     case qual = "qual"
     case semi = "semi"
     case final = "final"
