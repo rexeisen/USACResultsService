@@ -26,7 +26,7 @@ enum ClimbingURL {
             return components.url
         case .config(let eventId):
             var components = baseURLComponents
-            components.path = "events/\(eventId)/config.json"
+            components.path = "/events/\(eventId)/config.json"
             return components.url
         }
     }
