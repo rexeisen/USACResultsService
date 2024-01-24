@@ -15,7 +15,6 @@ public struct YouthRoster: Decodable {
         
         var finalData: [Discipline : [EventRound : [YouthRosterEntry]]] = [:]
         
-        
         struct IntermediaryCodable: Decodable {
             let data: [EventRound : [YouthRosterEntry]]
                         
@@ -26,10 +25,13 @@ public struct YouthRoster: Decodable {
                 var finalData: [EventRound : [YouthRosterEntry]] = [:]
                 
                 for key in EventRound.allCases {
-                    if let nestedRoster = try? container.decode( DecodedArray<DecodedArray<YouthRosterEntry>>.self, forKey: key) {
-                        let firstLevel: DecodedArray<YouthRosterEntry> = nestedRoster.array
-                        finalData[key] = firstLevel.array
-                        
+                    // Keypath example
+                    // boulder.final.category.id.roster
+                    
+                    if let nestedRoster = try? container
+                        .decode([String : DecodedArray<YouthRosterEntry>].self, forKey: key) {
+                        let subValues = Array(nestedRoster.values).map({ $0.array }).flatMap({ $0 }) as [YouthRosterEntry]
+                        finalData[key] = subValues
                     }
                 }
                 self.data = finalData
@@ -41,8 +43,6 @@ public struct YouthRoster: Decodable {
                 finalData[key] = discipline.data
             }
         }
-        
-        
         
         self.data = finalData
     }
