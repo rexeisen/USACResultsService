@@ -8,7 +8,7 @@
 import Foundation
 
 /// Represents the types of climbing
-public enum Discipline: String, Codable {
+public enum Discipline: String, Codable, CodingKey, CaseIterable {
     
     /// Climbing with a rope. TR stands for Top Rope
     case leadTR = "leadtr"
