@@ -9,6 +9,7 @@ import Foundation
 
 enum ClimbingURL {
     case schedule
+    case config(String)
     
     private var baseURLComponents: URLComponents {
         var components = URLComponents()
@@ -22,6 +23,10 @@ enum ClimbingURL {
         case .schedule:
             var components = baseURLComponents
             components.path = "/etc/schedule24.json"
+            return components.url
+        case .config(let eventId):
+            var components = baseURLComponents
+            components.path = "/events/\(eventId)/config.json"
             return components.url
         }
     }

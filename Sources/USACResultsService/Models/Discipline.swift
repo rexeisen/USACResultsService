@@ -11,12 +11,25 @@ import Foundation
 public enum Discipline: String, Codable {
     
     /// Climbing with a rope. TR stands for Top Rope
-    case leadTR = "LeadTR"
+    case leadTR = "leadtr"
     
     /// Speed climbing
-    case speed = "Speed"
+    case speed = "speed"
     
     /// Shorter walls without a rope
-    case boulder = "Boulder"
+    case boulder = "boulder"    
     
+    public init?(rawValue: String) {
+        let lowercased = rawValue.lowercased()
+        switch lowercased {
+        case "leadtr":
+            self = .leadTR
+        case "speed":
+            self = .speed
+        case "boulder":
+            self = .boulder
+        default:
+            return nil
+        }
+    }
 }
