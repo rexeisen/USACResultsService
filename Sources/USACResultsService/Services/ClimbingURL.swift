@@ -11,6 +11,7 @@ enum ClimbingURL {
     case schedule
     case config(String)
     case roster(String)
+    case routeCards(String)
     
     private var baseURLComponents: URLComponents {
         var components = URLComponents()
@@ -32,6 +33,10 @@ enum ClimbingURL {
         case .roster(let eventId):
             var components = baseURLComponents
             components.path = "/events/\(eventId)/config.json"
+            return components.url
+        case .routeCards(let eventId):
+            var components = baseURLComponents
+            components.path = "/events/\(eventId)/routecard.json"
             return components.url
         }
     }
