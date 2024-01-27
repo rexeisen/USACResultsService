@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ClimbingURL {
+public enum ClimbingURL {
     case schedule
     case config(String)
     case roster(String)
@@ -20,7 +20,7 @@ enum ClimbingURL {
         return components
     }
     
-    var url: URL? {
+    public var url: URL? {
         switch self {
         case .schedule:
             var components = baseURLComponents
