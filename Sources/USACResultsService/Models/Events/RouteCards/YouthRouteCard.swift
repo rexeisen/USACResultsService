@@ -19,11 +19,11 @@ public struct YouthRouteCard: Decodable {
         case round
     }
     
-    let attempts: [String]
-    let discipline: Discipline
-    let eventId: String
-    let laneId: String
-    let memberId: String
-    let routeId: String
-    let round: EventRound
+    public let attempts: [String]
+    public let discipline: Discipline
+    public let eventId: String
+    public let laneId: String
+    public let memberId: String
+    public let routeId: String
+    public let round: EventRound
 }
