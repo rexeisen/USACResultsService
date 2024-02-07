@@ -32,7 +32,7 @@ public enum ClimbingURL {
             return components.url
         case .roster(let eventId):
             var components = baseURLComponents
-            components.path = "/events/\(eventId)/config.json"
+            components.path = "/events/\(eventId)/roster.json"
             return components.url
         case .routeCards(let eventId):
             var components = baseURLComponents
