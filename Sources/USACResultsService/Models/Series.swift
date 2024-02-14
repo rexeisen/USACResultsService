@@ -12,4 +12,5 @@ public enum Series: String, Decodable {
     case collegiate = "Collegiate"
     case elite = "Elite"
     case recreational = "Rec"
+    case para = "Para"
 }

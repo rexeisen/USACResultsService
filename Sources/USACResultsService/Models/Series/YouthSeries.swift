@@ -48,6 +48,16 @@ public struct YouthSeries: SeriesComponents {
         case r82 = "R82"
         case r91 = "R91"
         case r92 = "R92"
+        
+        case d1 = "D1"
+        case d2 = "D2"
+        case d3 = "D3"
+        case d4 = "D4"
+        case d5 = "D5"
+        case d6 = "D6"
+        case d7 = "D7"
+        case d8 = "D8"
+        case d9 = "D9"
     }
     
 }

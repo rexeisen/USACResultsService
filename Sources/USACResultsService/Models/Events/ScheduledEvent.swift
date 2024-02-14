@@ -7,7 +7,8 @@
 
 import Foundation
 
-public struct ScheduledEvent: Decodable {
+public struct ScheduledEvent: Decodable, Hashable {
+    
     enum ScheduleError: Error {
         
     }
@@ -17,15 +18,15 @@ public struct ScheduledEvent: Decodable {
         case sport80Id
     }
     
-    enum ScheduleEventContainer {
+    public enum ScheduleEventContainer: Hashable {
         case youth(YouthEvent)
         case collegiate(CollegiateEvent)
         case elite(EliteEvent)
         case recretational(RecreationalEvent)
-        case garbage
+        case unsupported(String)
     }
     
-    var value: ScheduleEventContainer
+    public var value: ScheduleEventContainer
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -34,7 +35,7 @@ public struct ScheduledEvent: Decodable {
         
         // For mock competitions
         guard sport80Id != "-1" else {
-            self.value = .garbage
+            self.value = .unsupported(sport80Id)
             return
         }
         
@@ -52,6 +53,8 @@ public struct ScheduledEvent: Decodable {
         case .recreational:
             let event = try RecreationalEvent(from: decoder)
             self.value = .recretational(event)
+        case .para:
+            self.value = .unsupported(sport80Id)
         }
     }
 }

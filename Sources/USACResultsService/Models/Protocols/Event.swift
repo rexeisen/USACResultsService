@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol Event: Identifiable, Decodable {
+public protocol Event: Identifiable, Decodable, Hashable {
     associatedtype SeriesType: SeriesComponents
 
     /// The event ID. Often the same as the Sport80 Id
