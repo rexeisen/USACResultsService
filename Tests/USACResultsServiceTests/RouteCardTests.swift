@@ -20,6 +20,26 @@ final class RouteCardTests: XCTestCase {
         let groupedByCompetitor = Dictionary(grouping: decoded.data) { $0.memberId }
         let competitorCard = try XCTUnwrap(groupedByCompetitor["29666381"])
         XCTAssertEqual(competitorCard.count, 4)
+        
+        for card in competitorCard {
+            let bestAttempt = try XCTUnwrap(card.attempts.max())
+            switch card.routeId {
+            case "R9":
+                XCTAssertEqual(bestAttempt.score, "T")
+                XCTAssertEqual(bestAttempt.attempt, 2)
+            case "R10":
+                XCTAssertEqual(bestAttempt.score, "0")
+                XCTAssertEqual(bestAttempt.attempt, 1)
+            case "R11":
+                XCTAssertEqual(bestAttempt.score, "Z")
+                XCTAssertEqual(bestAttempt.attempt, 1)
+            case "R12":
+                XCTAssertEqual(bestAttempt.score, "Z")
+                XCTAssertEqual(bestAttempt.attempt, 3)
+            default:
+                XCTFail("Parsed the wrong route")
+            }
+        }
     }
     
     private var jsonString = """

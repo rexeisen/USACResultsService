@@ -63,7 +63,7 @@ public struct YouthEvent: Event {
             let year = startComponents.removeFirst()
             let month = startComponents.removeFirst()
             let day = startComponents.removeFirst()
-            self.dateStart = DateComponents(year: year, month: month, day: day)
+            self.dateStart = DateComponents(calendar: Calendar(identifier: .gregorian), year: year, month: month, day: day)
         } else {
             throw DateError.invalidFormat
         }
@@ -74,7 +74,7 @@ public struct YouthEvent: Event {
             let year = endComponents.removeFirst()
             let month = endComponents.removeFirst()
             let day = endComponents.removeFirst()
-            self.dateEnd = DateComponents(year: year, month: month, day: day)
+            self.dateEnd = DateComponents(calendar: Calendar(identifier: .gregorian), year: year, month: month, day: day)
         } else {
             throw DateError.invalidFormat
         }
