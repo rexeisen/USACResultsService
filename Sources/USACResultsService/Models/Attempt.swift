@@ -25,6 +25,10 @@ public struct Attempt: Decodable, Hashable, Comparable {
         return lhs.value < rhs.value
     }
     
+    
+    /// Returns the relative value of the attempt. Rope scores are determined
+    /// by the USAC Rulebook as of 2023-2024. Bouldering scores are custom for
+    /// this attempt
     public var value: Double {
         
         switch discipline {
@@ -63,7 +67,13 @@ public struct Attempt: Decodable, Hashable, Comparable {
     public let score: String
     public let attempt: Int
     
-    init(discipline: Discipline, score: String, attempt: Int) {
+    
+    /// Initializer
+    /// - Parameters:
+    ///   - discipline: The discipline of the event
+    ///   - score: The string score. This by convention is by the specified discipline.
+    ///   - attempt: The attempt count. Important because the score goes down per attempt
+    public init(discipline: Discipline, score: String, attempt: Int) {
         self.discipline = discipline
         self.score = score
         self.attempt = attempt
