@@ -31,6 +31,9 @@ final class RosterTests: XCTestCase {
         XCTAssert(foundCompetitor.name == "Anna Rexeisen")
         XCTAssert(foundCompetitor.category == .femaleB)
         XCTAssert(foundCompetitor.region == .r61)
+        let finalRound = try XCTUnwrap(foundCompetitor.startTimes[.final])
+        XCTAssert(finalRound.count == 4)
+        XCTAssert(finalRound == ["14:52:45", "15:01:15", "15:09:45", "15:18:15"])
     }
     
     private let jsonString =

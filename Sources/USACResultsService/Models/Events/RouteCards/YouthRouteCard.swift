@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct YouthRouteCard: Decodable {
+public struct YouthRouteCard: Decodable, Hashable {
     
     enum CodingKeys: String, CodingKey {
         case attempts
@@ -43,5 +43,15 @@ public struct YouthRouteCard: Decodable {
             builtAttempts.append(Attempt(discipline: discipline, score: element, attempt: index + 1))
         }
         self.attempts = builtAttempts
+    }
+    
+    init(discipline: Discipline, memberId: String, routeId: String, round: EventRound) {
+        self.attempts = []
+        self.discipline = discipline
+        self.eventId = ""
+        self.laneId = ""
+        self.memberId = memberId
+        self.routeId = routeId
+        self.round = round
     }
 }
