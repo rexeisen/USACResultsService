@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Collections
 
 enum RouteCardValue: Hashable, Comparable {
     case bestAttempt(Double)
