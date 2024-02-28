@@ -46,6 +46,8 @@ public protocol Event: Identifiable, Decodable, Hashable {
     /// If it's a youth, collegiate, or elite
     var series: Series { get }
     
+    var status: EventStatus { get }
+    
     // MARK: Location Information
     
     /// The city in which the event is being held

@@ -75,7 +75,7 @@ public struct EventResults {
         let filtered = routeCards.filter({$0.discipline == .leadTR})
         // Get the roster for the current selected item
         let competitors = roster.filter({$0.category == category })
-        var allRouteCards: Set<YouthRouteCard> = []
+        var allRouteCards: Set<YouthRouteCard> = Set(filtered)
         
         /*
          var places: [Double : Int] = [:]
@@ -109,9 +109,7 @@ public struct EventResults {
         }
                 
         // For the route cards, we need to set all the start times
-        var completedRoutedCards: Set<YouthRouteCard> = []
         for filteredRouteCard in filteredRouteCards {
-            var mutatedCard = filteredRouteCard
             guard let foundClimber = competitors.first(where: {$0.id == filteredRouteCard.memberId}) else {
                 print("UNABLE TO FIND CLIMBER")
                 continue
@@ -126,9 +124,7 @@ public struct EventResults {
             } else {
                 roundStartTimes[foundClimber.id] = Date.distantFuture
             }
-            completedRoutedCards.insert(mutatedCard)
         }
-        filteredRouteCards = completedRoutedCards
         
         // Setup the initial set of Rankings to be modified later
         var rankings: Set<EventRanking> = []
@@ -188,7 +184,7 @@ public struct EventResults {
 
         // We want to return an array here
         
-        self.places = places
-        self.rankings = sortedRankings
+//        self.places = places
+//        self.rankings = sortedRankings
     }
 }
