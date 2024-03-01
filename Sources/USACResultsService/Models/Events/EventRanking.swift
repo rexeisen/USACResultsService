@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct EventRanking: Hashable, Identifiable, Comparable, CustomStringConvertible {
+public struct EventRanking: Hashable, Identifiable, Comparable, CustomStringConvertible {
         
-    var description: String {
+    public var description: String {
         if !self.hasMadeAnAttempt() {
             if let firstDate = competitor.startTimes[round]?.sorted().first {
                 return firstDate.formatted(date: .omitted, time: .shortened)
@@ -21,7 +21,7 @@ struct EventRanking: Hashable, Identifiable, Comparable, CustomStringConvertible
         }
     }
     
-    static func < (lhs: EventRanking, rhs: EventRanking) -> Bool {
+    public static func < (lhs: EventRanking, rhs: EventRanking) -> Bool {
         switch (lhs.hasMadeAnAttempt(), rhs.hasMadeAnAttempt()) {
         case (true, true):
             return lhs.score < rhs.score
@@ -40,25 +40,26 @@ struct EventRanking: Hashable, Identifiable, Comparable, CustomStringConvertible
         }
     }
     
-    var id: String { competition + "-" + competitor.id }
-    var competition: String
-    let competitor: YouthRosterEntry
-    let routeCards: [YouthRouteCard]
-    var place: [String : Double]
-    var score: Double = 10000.0
-    var round: EventRound
+    public var id: String { competition + "-" + competitor.id }
+    public let competition: String
+    public let competitor: YouthRosterEntry
+    public let routeCards: [YouthRouteCard]
+    public internal(set) var individualPlaces: [String : Double]
+    public internal(set) var score: Double = 10000.0
+    public internal(set) var round: EventRound
+    public internal(set) var overallPlace: Int = -1
     
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
     
     mutating func updateScore() {
-        let values: [Double] = place.values.map({$0})
+        let values: [Double] = individualPlaces.values.map({$0})
         let allValues = Double(values.reduce(1, *))
         self.score = pow(allValues, 1.0 / Double(values.count))
     }
     
-    static func == (lhs: Self, rhs: Self) -> Bool {
+    public static func == (lhs: Self, rhs: Self) -> Bool {
         return lhs.id == rhs.id
     }
     

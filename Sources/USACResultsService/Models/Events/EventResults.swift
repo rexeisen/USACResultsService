@@ -54,25 +54,29 @@ public struct EventResults {
         self.roster = roster
     }
     
-    public func calculateAllScores(for discipline: Discipline, round: EventRound, routeCards: [YouthRouteCard]) {
+    public func calculateAllScores(for discipline: Discipline, round: EventRound, routeCards: [YouthRouteCard]) -> [YouthSeries.Category : [EventRanking]] {
         
+        var scores: [YouthSeries.Category : [EventRanking]] = [:]
         for category in YouthSeries.Category.allCases {
             switch discipline {
             case.leadTR:
-                self.calculateRopeScores(category: category,
-                                         round: round,
-                                         routeCards: routeCards)
+                let rankings = self.calculateRopeScores(category: category,
+                                                        round: round,
+                                                        routeCards: routeCards)
+                scores[category] = rankings
 
             default:
                 // Not yet implemented
-                return
+                continue
             }
         }
+        
+        return scores
     }
     
     private func calculateRopeScores(category: YouthSeries.Category,
                                      round: EventRound,
-                                     routeCards: [YouthRouteCard]) {
+                                     routeCards: [YouthRouteCard]) -> [EventRanking] {
         let filtered = routeCards.filter({$0.discipline == .leadTR})
         // Get the roster for the current selected item
         let competitors = roster.filter({$0.category == category })
@@ -133,7 +137,7 @@ public struct EventResults {
             let ranking = EventRanking(competition: configuration.id,
                                   competitor: competitor,
                                        routeCards: filteredRouteCards.filter({$0.memberId == competitor.id}),
-                                       place: [:],
+                                       individualPlaces: [:],
                                        round: round)
             rankings.insert(ranking)
         }
@@ -162,7 +166,7 @@ public struct EventResults {
                         continue
                     }
                     
-                    currentRanking.place[route] = score
+                    currentRanking.individualPlaces[route] = score
                     currentRanking.updateScore()
                     rankings.update(with: currentRanking)
                 }
@@ -184,8 +188,13 @@ public struct EventResults {
         }
 
         // We want to return an array here
+        var placedRankings: [EventRanking] = []
+        for ranking in sortedRankings {
+            var modifiedRanking = ranking
+            modifiedRanking.overallPlace = places[ranking.score] ?? -1
+            placedRankings.append(modifiedRanking)
+        }
         
-//        self.places = places
-//        self.rankings = sortedRankings
+        return placedRankings
     }
 }
