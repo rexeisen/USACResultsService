@@ -50,7 +50,16 @@ public struct YouthRosterEntry: Decodable, Identifiable {
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.bib = try container.decode(Int.self, forKey: .bib)
+        
+        // If a bib isn't set, it might be a blank string entry
+        // Or if the bib is set, it might be a int ☠️
+        if let bibNumber = try? container.decode(Int.self, forKey: .bib) {
+            self.bib = bibNumber
+        } else if let bibString = try? container.decode(String.self, forKey: .bib) {
+            self.bib = Int(bibString) ?? -1
+        } else {
+            self.bib = -1
+        }
         self.category = try container.decode(YouthSeries.Category.self, forKey: .category)
         self.memberId = try container.decode(String.self, forKey: .memberId)
         self.name = try container.decode(String.self, forKey: .name)

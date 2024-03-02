@@ -37,7 +37,7 @@ public struct YouthRouteCard: Decodable, Hashable {
         self.round = try container.decode(EventRound.self, forKey: .round)
         
         /// Attempts need to be crafted individually
-        let rawAttempts = try container.decode([String].self, forKey: .attempts)
+        let rawAttempts = (try? container.decode([String].self, forKey: .attempts)) ?? []
         var builtAttempts: [Attempt] = []
         for (index, element) in rawAttempts.enumerated() {
             builtAttempts.append(Attempt(discipline: discipline, score: element, attempt: index + 1))

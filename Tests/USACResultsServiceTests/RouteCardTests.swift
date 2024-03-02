@@ -42,6 +42,34 @@ final class RouteCardTests: XCTestCase {
         }
     }
     
+    func testRouteCardsParse1689() throws {
+        let jsonData = Data(EventResultsData.routeCards.utf8)
+
+        let decoded = try JSONDecoder().decode(YouthEventRouteCards.self, from: jsonData)
+        
+        XCTAssertEqual(decoded.data.count, 551)
+        let groupedByCompetitor = Dictionary(grouping: decoded.data) { $0.memberId }
+        let competitorCard = try XCTUnwrap(groupedByCompetitor["29683591"])
+        XCTAssertEqual(competitorCard.count, 3)
+        
+        for card in competitorCard {
+            let bestAttempt = try XCTUnwrap(card.attempts.max())
+            switch card.routeId {
+            case "R7":
+                XCTAssertEqual(bestAttempt.score, "13+")
+                XCTAssertEqual(bestAttempt.attempt, 1)
+            case "R8":
+                XCTAssertEqual(bestAttempt.score, "23")
+                XCTAssertEqual(bestAttempt.attempt, 1)
+            case "R9":
+                XCTAssertEqual(bestAttempt.score, "14+")
+                XCTAssertEqual(bestAttempt.attempt, 1)
+            default:
+                XCTFail("Parsed the wrong route \(card.routeId)")
+            }
+        }
+    }
+    
     private var jsonString = """
 {
   "boulder" : {
