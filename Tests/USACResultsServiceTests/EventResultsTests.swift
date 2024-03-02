@@ -56,16 +56,16 @@ final class EventResultsTests: XCTestCase {
         let second = try XCTUnwrap(rankings[1])
         XCTAssertEqual(second.overallPlace, 2)
         XCTAssertEqual(second.competitor.name, "Emily Klein")
-        XCTAssertEqual(second.score, 3.71, accuracy: 0.01)
+        XCTAssertEqual(second.score, 3.74, accuracy: 0.01)
         
         let third = try XCTUnwrap(rankings[2])
         XCTAssertEqual(third.overallPlace, 2)
         XCTAssertEqual(third.competitor.name, "Margo Chiong")
-        XCTAssertEqual(third.score, 3.71, accuracy: 0.01)
+        XCTAssertEqual(third.score, 3.74, accuracy: 0.01)
         
         let fifth = try XCTUnwrap(rankings[4])
         XCTAssertEqual(fifth.overallPlace, 5)
         XCTAssertEqual(fifth.competitor.name, "Goldie Kraus")
-        XCTAssertEqual(fifth.score, 5.01, accuracy: 0.01)
+        XCTAssertEqual(fifth.score, 5.01, accuracy: 0.01)        
     }
 }

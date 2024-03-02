@@ -24,7 +24,11 @@ public struct EventRanking: Hashable, Identifiable, Comparable, CustomStringConv
     public static func < (lhs: EventRanking, rhs: EventRanking) -> Bool {
         switch (lhs.hasMadeAnAttempt(), rhs.hasMadeAnAttempt()) {
         case (true, true):
-            return lhs.score < rhs.score
+            if lhs.score == rhs.score {
+                return lhs.competitor.name < rhs.competitor.name
+            } else {
+                return lhs.score < rhs.score
+            }
         case (true, false):
             return true
         case (false, true):

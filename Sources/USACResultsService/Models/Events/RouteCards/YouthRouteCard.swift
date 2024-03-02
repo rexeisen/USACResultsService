@@ -54,4 +54,15 @@ public struct YouthRouteCard: Decodable, Hashable {
         self.routeId = routeId
         self.round = round
     }
+    
+    // MARK: Protocol Conformance
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.memberId)
+        hasher.combine(self.routeId)
+    }
+    
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.memberId == rhs.memberId && lhs.routeId == rhs.routeId
+    }
 }

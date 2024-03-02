@@ -80,12 +80,8 @@ public struct EventResults {
         let filtered = routeCards.filter({$0.discipline == .leadTR})
         // Get the roster for the current selected item
         let competitors = roster.filter({$0.category == category })
-        var allRouteCards: Set<YouthRouteCard> = Set(filtered)
+        var allRouteCards: Set<YouthRouteCard> = []
         
-        /*
-         var places: [Double : Int] = [:]
-         var results: [Category : String] = [:]
-         */
         var routes: [String] = []
         var roundStartTimes: [String : Date] = [:]
         
@@ -109,7 +105,7 @@ public struct EventResults {
             .filter { !$0.scratch }
             .map({ $0.id })
         
-        var filteredRouteCards = allRouteCards.filter { card in
+        let filteredRouteCards = allRouteCards.filter { card in
             return competitorIDs.contains(card.memberId)
         }
                 
@@ -134,9 +130,11 @@ public struct EventResults {
         // Setup the initial set of Rankings to be modified later
         var rankings: Set<EventRanking> = []
         for competitor in competitors {
+            let memberRouteCards = Array(filteredRouteCards.filter({$0.memberId == competitor.id}))
+            
             let ranking = EventRanking(competition: configuration.id,
                                   competitor: competitor,
-                                       routeCards: filteredRouteCards.filter({$0.memberId == competitor.id}),
+                                       routeCards: memberRouteCards,
                                        individualPlaces: [:],
                                        round: round)
             rankings.insert(ranking)
