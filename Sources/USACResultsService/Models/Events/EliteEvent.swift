@@ -36,6 +36,8 @@ public struct EliteEvent: Event {
     
     public var series: Series
     
+    public let status: EventStatus
+    
     public enum CodingKeys: String, CodingKey {
         case id = "eid"
         case dateStart
@@ -50,6 +52,7 @@ public struct EliteEvent: Event {
         case categories
         case region
         case series
+        case status
     }
     
     public init(from decoder: Decoder) throws {
@@ -86,5 +89,6 @@ public struct EliteEvent: Event {
         self.categories = try container.decode([EliteSeries.Category].self, forKey: .categories)
         self.region = try container.decode(EliteSeries.Region.self, forKey: .region)
         self.series = try container.decode(Series.self, forKey: .series)
+        self.status = try container.decode(EventStatus.self, forKey: .status)
     }
 }

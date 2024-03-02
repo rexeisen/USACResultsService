@@ -12,6 +12,10 @@ public struct YouthEventConfiguration: Decodable, Identifiable {
     
     public var categories: [YouthSeries.Category]
     
+    public var dateStart: Date?
+    
+    public var dateEnd: Date?
+    
     private var eid: String
     
     public var format: EventFormat
@@ -28,8 +32,13 @@ public struct YouthEventConfiguration: Decodable, Identifiable {
     
     public var routes: [Discipline : [EventRound : YouthEventRoundConfiguration]]
     
+    /// The version of the backend used
+    public var version: String
+    
     enum CodingKeys: CodingKey {
         case categories
+        case dateStart
+        case dateEnd
         case eid
         case format
         case disciplines
@@ -37,6 +46,7 @@ public struct YouthEventConfiguration: Decodable, Identifiable {
         case rounds
         case series
         case routes
+        case ver
     }
     
     public init(from decoder: Decoder) throws {
@@ -48,6 +58,7 @@ public struct YouthEventConfiguration: Decodable, Identifiable {
         self.region = try container.decode(String.self, forKey: .region)
         self.rounds = try container.decode(String.self, forKey: .rounds)
         self.series = try container.decode(Series.self, forKey: .series)
+        self.version = try container.decode(String.self, forKey: .ver)
         
         struct IntermediaryCodable: Decodable {
             let data: [EventRound : YouthEventRoundConfiguration]
@@ -78,5 +89,33 @@ public struct YouthEventConfiguration: Decodable, Identifiable {
         }
         
         self.routes = finalDecoded
+        
+        // Date Nonsense
+        // "dateEnd" : "2024/01/13",
+        // "dateStart" : "2024/01/13",
+        
+        let dateStartString = try container.decode(String.self, forKey: .dateStart)
+        var startComponents = dateStartString.split(separator: "/").compactMap({ Int($0) })
+        if startComponents.count == 3 {
+            let year = startComponents.removeFirst()
+            let month = startComponents.removeFirst()
+            let day = startComponents.removeFirst()
+            self.dateStart = DateComponents(calendar: Calendar(identifier: .gregorian), year: year, month: month, day: day).date
+        } else {
+            throw DateError.invalidFormat
+        }
+        
+        let dateEndString = try container.decode(String.self, forKey: .dateEnd)
+        var endComponents = dateEndString.split(separator: "/").compactMap({ Int($0) })
+        if endComponents.count == 3 {
+            let year = endComponents.removeFirst()
+            let month = endComponents.removeFirst()
+            let day = endComponents.removeFirst()
+            self.dateEnd = DateComponents(calendar: Calendar(identifier: .gregorian), year: year, month: month, day: day).date
+        } else {
+            throw DateError.invalidFormat
+        }
+        
+
     }
 }

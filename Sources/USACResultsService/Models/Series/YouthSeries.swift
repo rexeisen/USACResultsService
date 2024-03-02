@@ -15,7 +15,7 @@ public struct YouthSeries: SeriesComponents {
     
     public typealias RegionType = Self.Region
     
-    public enum Category: String, Codable {
+    public enum Category: String, Codable, CaseIterable {
         case femaleJR = "FJR"
         case femaleA = "FYA"
         case femaleB = "FYB"

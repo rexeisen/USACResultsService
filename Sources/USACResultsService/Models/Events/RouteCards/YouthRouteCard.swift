@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct YouthRouteCard: Decodable {
+public struct YouthRouteCard: Decodable, Hashable {
     
     enum CodingKeys: String, CodingKey {
         case attempts
@@ -37,11 +37,32 @@ public struct YouthRouteCard: Decodable {
         self.round = try container.decode(EventRound.self, forKey: .round)
         
         /// Attempts need to be crafted individually
-        let rawAttempts = try container.decode([String].self, forKey: .attempts)
+        let rawAttempts = (try? container.decode([String].self, forKey: .attempts)) ?? []
         var builtAttempts: [Attempt] = []
         for (index, element) in rawAttempts.enumerated() {
             builtAttempts.append(Attempt(discipline: discipline, score: element, attempt: index + 1))
         }
         self.attempts = builtAttempts
+    }
+    
+    init(discipline: Discipline, memberId: String, routeId: String, round: EventRound) {
+        self.attempts = []
+        self.discipline = discipline
+        self.eventId = ""
+        self.laneId = ""
+        self.memberId = memberId
+        self.routeId = routeId
+        self.round = round
+    }
+    
+    // MARK: Protocol Conformance
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.memberId)
+        hasher.combine(self.routeId)
+    }
+    
+    public static func == (lhs: Self, rhs: Self) -> Bool {
+        return lhs.memberId == rhs.memberId && lhs.routeId == rhs.routeId
     }
 }
