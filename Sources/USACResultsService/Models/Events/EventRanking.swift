@@ -40,7 +40,12 @@ public struct EventRanking: Hashable, Identifiable, Comparable, CustomStringConv
             else {
                 return true
             }
-            return lhsFirst < rhsFirst
+            
+            if lhsFirst == rhsFirst {
+                return lhs.competitor.name < rhs.competitor.name
+            } else {
+                return lhsFirst < rhsFirst
+            }
         }
     }
     
@@ -67,7 +72,7 @@ public struct EventRanking: Hashable, Identifiable, Comparable, CustomStringConv
         return lhs.id == rhs.id
     }
     
-    func hasMadeAnAttempt() -> Bool {
+    public func hasMadeAnAttempt() -> Bool {
         for routeCard in routeCards {
             if !routeCard.attempts.isEmpty {
                 return true

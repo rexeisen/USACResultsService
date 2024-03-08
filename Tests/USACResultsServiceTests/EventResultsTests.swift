@@ -82,4 +82,26 @@ final class EventResultsTests: XCTestCase {
         
         XCTAssertEqual(didNotFinish.score, 17.97, accuracy: 0.01)
     }
+    
+    func test1714Results() throws {
+        
+        let configData = Data(EventResultsData.config1714.utf8)
+        let configuration = try JSONDecoder().decode(YouthEventConfiguration.self, from: configData)
+        
+        let rosterData = Data(EventResultsData.roster1714.utf8)
+        let decodedRoster = try JSONDecoder().decode(YouthRoster.self, from: rosterData)
+        let roster = try XCTUnwrap(decodedRoster.data[.leadTR]?[.final])
+        
+        let routeCardData = Data(EventResultsData.routeCards1700.utf8)
+        let decodedRouteCards = try? JSONDecoder().decode(YouthEventRouteCards.self, from: routeCardData)
+        let routeCards = decodedRouteCards?.data ?? []
+                      
+        let rankingContainer = EventResults(configuration: configuration, roster: roster)
+        let allRankings = rankingContainer.calculateAllScores(for: .leadTR, round: .final, routeCards: routeCards)
+        
+        let rankings = try XCTUnwrap(allRankings[.femaleB])
+
+        let ranking = try XCTUnwrap(rankings.first(where: { $0.competitor.name == "Anna Rexeisen" }))
+        XCTAssertEqual(ranking.hasMadeAnAttempt(), false)
+    }
 }
