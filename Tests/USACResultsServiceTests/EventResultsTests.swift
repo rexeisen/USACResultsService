@@ -103,5 +103,10 @@ final class EventResultsTests: XCTestCase {
 
         let ranking = try XCTUnwrap(rankings.first(where: { $0.competitor.name == "Anna Rexeisen" }))
         XCTAssertEqual(ranking.hasMadeAnAttempt(), false)
+        
+        let scratched = try XCTUnwrap(rankings.last)
+        XCTAssertEqual(scratched.competitor.id, "29659089")
+        XCTAssertEqual(scratched.competitor.name, "Miriam Adams")
+        
     }
 }

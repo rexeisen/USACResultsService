@@ -9898,38 +9898,6 @@ public struct EventResultsData {
   "sport80Id" : "1328",
   "state" : "SD",
   "status" : "Approved",
-  "team" : {
-    "jennypettsgmailcom" : {
-      "email" : "jenny.petts@gmail.com",
-      "name" : "Jenny Petts",
-      "phone" : ""
-    },
-    "jonrexeisengmailcom" : {
-      "email" : "jon.rexeisen@gmail.com",
-      "name" : "Jon Rexeisen",
-      "phone" : "+16128687906"
-    },
-    "kellykrajnikgmailcom" : {
-      "email" : "kellykrajnik@gmail.com",
-      "name" : "Kelly Krajnik",
-      "phone" : "+18153706640"
-    },
-    "krajnikagmailcom" : {
-      "email" : "krajnika@gmail.com",
-      "name" : "Andrew Krajnik",
-      "phone" : ""
-    },
-    "louhill47gmailcom" : {
-      "email" : "lou.hill47@gmail.com",
-      "name" : "Louis Hill",
-      "phone" : "+16512089156"
-    },
-    "nkahouadjigmailcom" : {
-      "email" : "nkahouadji@gmail.com",
-      "name" : "Nabil Kahouadji",
-      "phone" : ""
-    }
-  },
   "teamScores" : "",
   "timerId" : "",
   "timezone" : "America/Chicago",
@@ -10443,6 +10411,7 @@ public struct EventResultsData {
           },
           "memberId" : "29659089",
           "name" : "Miriam Adams",
+          "scratch" : true,
           "printTime" : "3/7/2024, 8:40:43 PM",
           "region" : "R61",
           "team" : "Adventure Rock"

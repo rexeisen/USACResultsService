@@ -22,6 +22,13 @@ public struct EventRanking: Hashable, Identifiable, Comparable, CustomStringConv
     }
     
     public static func < (lhs: EventRanking, rhs: EventRanking) -> Bool {
+        // Scratchs are always a forcing function if they are different
+        if lhs.competitor.scratch, !rhs.competitor.scratch {
+            return false
+        } else if !lhs.competitor.scratch, rhs.competitor.scratch {
+            return true
+        }
+        
         switch (lhs.hasMadeAnAttempt(), rhs.hasMadeAnAttempt()) {
         case (true, true):
             if lhs.score == rhs.score {
