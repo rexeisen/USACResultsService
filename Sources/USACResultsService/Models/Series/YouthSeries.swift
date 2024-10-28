@@ -16,17 +16,17 @@ public struct YouthSeries: SeriesComponents {
     public typealias RegionType = Self.Region
     
     public enum Category: String, Codable, CaseIterable {
-        case femaleJR = "FJR"
-        case femaleA = "FYA"
-        case femaleB = "FYB"
-        case femaleC = "FYC"
-        case femaleD = "FYD"
+        case femaleU20 = "F20"
+        case femaleU19 = "F19"
+        case femaleU17 = "F17"
+        case femaleU15 = "F15"
+        case femaleU13 = "F13"
         
-        case maleJR = "MJR"
-        case maleA = "MYA"
-        case maleB = "MYB"
-        case maleC = "MYC"
-        case maleD = "MYD"
+        case maleU20 = "M20"
+        case maleU19 = "M19"
+        case maleU17 = "M17"
+        case maleU15 = "M15"
+        case maleU13 = "M13"
     }
     
     public enum Region: String, Codable {

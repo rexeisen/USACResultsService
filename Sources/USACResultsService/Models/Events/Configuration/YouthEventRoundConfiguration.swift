@@ -29,6 +29,7 @@ public struct YouthEventRoundConfiguration: Decodable {
         
         // Category Routes could either be a string or an int. Because javascript
         let temporaryDecoded: [String : [String]]
+        
         if let stringlyTyped = try? container.decode( [String : [String]].self, forKey: .catRoutes) {
             temporaryDecoded = stringlyTyped
         } else if let intlyTyped = try? container.decode( [String : [Int]].self, forKey: .catRoutes) {
@@ -38,8 +39,23 @@ public struct YouthEventRoundConfiguration: Decodable {
             }
             temporaryDecoded = casted
         } else {
-            let stringlyTyped = try container.decode( [String : [String]].self, forKey: .catRoutes)
-            temporaryDecoded = stringlyTyped
+            struct RandomValueFromServer: Decodable {
+                var value: String
+                
+                init(from decoder: any Decoder) throws {
+                    let container = try decoder.singleValueContainer()
+                    if let result = try? container.decode(String.self) { self.value = result }
+                    else if let result = try? container.decode(Int.self) { self.value = String(result) }
+                    else { throw YouthEventRoundConfigurationError.catRoutesIncorrect }
+                }
+            }
+            
+            let randomlyTyped = try container.decode( [String : [RandomValueFromServer]].self, forKey: .catRoutes)
+            var casted: [String : [String]] = [:]
+            for (key, value) in randomlyTyped {
+                casted[key] = value.map({ $0.value })
+            }
+            temporaryDecoded = casted
         }
         
         var finalDecoded: [YouthSeries.Category : [String]] = [:]

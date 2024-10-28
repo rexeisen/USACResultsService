@@ -13,31 +13,25 @@ public enum ClimbingURL {
     case roster(String)
     case routeCards(String)
     
-    private var baseURLComponents: URLComponents {
+    public static var baseURLComponents: URLComponents {
         var components = URLComponents()
         components.scheme = "https"
-        components.host = "usacscoring-v8.firebaseio.com"
+        components.host = "usacscoring-v9.firebaseio.com"
         return components
     }
     
     public var url: URL? {
+        var components = Self.baseURLComponents
         switch self {
         case .schedule:
-            var components = baseURLComponents
             components.path = "/etc/schedule24.json"
-            return components.url
         case .config(let eventId):
-            var components = baseURLComponents
             components.path = "/events/\(eventId)/config.json"
-            return components.url
         case .roster(let eventId):
-            var components = baseURLComponents
             components.path = "/events/\(eventId)/roster.json"
-            return components.url
         case .routeCards(let eventId):
-            var components = baseURLComponents
             components.path = "/events/\(eventId)/routecard.json"
-            return components.url
         }
+        return components.url
     }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 public enum EventFormat: String, Codable {
     case onsight = "Onsight"
-    case modifiedRedpoint = "Mod Redpoint"
+    case modifiedRedpoint = "MRP"
     case speed = "Speed"
     case flash = "Flash"
 }
