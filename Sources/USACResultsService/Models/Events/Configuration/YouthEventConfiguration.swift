@@ -20,6 +20,8 @@ public struct YouthEventConfiguration: Decodable, Identifiable {
     
     public var format: EventFormat
     
+    public var host: String
+    
     public var disciplines: [Discipline]
     
     // Not coded to Region Enum because this could also be the division
@@ -41,6 +43,7 @@ public struct YouthEventConfiguration: Decodable, Identifiable {
         case dateEnd
         case eid
         case format
+        case host
         case disciplines
         case region
         case rounds
@@ -56,6 +59,7 @@ public struct YouthEventConfiguration: Decodable, Identifiable {
         self.format = try container.decode(EventFormat.self, forKey: .format)
         self.disciplines = try container.decode([Discipline].self, forKey: .disciplines)
         self.region = try container.decode(String.self, forKey: .region)
+        self.host = try container.decode(String.self, forKey: .host)
         self.rounds = try container.decode(String.self, forKey: .rounds)
         self.series = try container.decode(Series.self, forKey: .series)
         self.version = try container.decode(String.self, forKey: .ver)
