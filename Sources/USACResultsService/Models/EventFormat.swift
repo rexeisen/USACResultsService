@@ -12,4 +12,5 @@ public enum EventFormat: String, Codable {
     case modifiedRedpoint = "MRP"
     case speed = "Speed"
     case flash = "Flash"
+    case isolation = "ISO"
 }
